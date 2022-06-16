@@ -17,7 +17,6 @@ import javax.swing.JLabel;
 import javax.swing.JPasswordField;
 import javax.swing.JRadioButton;
 import javax.swing.JTextField;
-import javax.swing.SwingConstants;
 import java.net.URL;
 import java.util.ArrayList;
 /**
@@ -26,6 +25,8 @@ import java.util.ArrayList;
  */
 public class Interface {
 	private JFrame frame = new JFrame("Hello Nature");
+	Gerir gerir = new Gerir(new ArrayList<>(), new ArrayList<>());
+	
 	public void menu(){
 		
 		frame.getContentPane().removeAll();
@@ -36,32 +37,41 @@ public class Interface {
 		frame.setLayout(null);
 		
 		JLabel contacto = new JLabel("Contactos:");
-		contacto.setBounds(250,382,80,30);
+		contacto.setBounds(220,382,80,30);
 		frame.add(contacto);
 		ImageIcon iconInsta = new ImageIcon("insta.png");
 		JButton insta = new JButton(iconInsta);
-		insta.setBounds(320,385,24,24);
+		insta.setBounds(290,385,24,24);
 		insta.setBackground(new Color(227,241,172));
 		insta.setBorder(BorderFactory.createEmptyBorder());
 		insta.setFocusable(false);
-		insta.addActionListener(e -> {try{Desktop.getDesktop().browse(new URL("https://www.instagram.com").toURI());} catch(Exception t) {}});
+		insta.addActionListener(e -> {try{Desktop.getDesktop().browse(new URL("https://www.instagram.com/hellonaturePT/").toURI());} catch(Exception t) {}});
 		frame.add(insta);
 		ImageIcon iconFace = new ImageIcon("face.png");
 		JButton face = new JButton(iconFace);
-		face.setBounds(350,385,24,24);
+		face.setBounds(320,385,24,24);
 		face.setFocusable(false);
 		face.setBackground(new Color(227,241,172));
 		face.setBorder(BorderFactory.createEmptyBorder());
-		face.addActionListener(e -> {try{Desktop.getDesktop().browse(new URL("https://www.facebook.com").toURI());} catch(Exception t) {}});
+		face.addActionListener(e -> {try{Desktop.getDesktop().browse(new URL("https://www.facebook.com/Hello-Nature-101619722598759").toURI());} catch(Exception t) {}});
 		frame.add(face);
 		ImageIcon iconTwit = new ImageIcon("twit.png");
 		JButton twit = new JButton(iconTwit);
-		twit.setBounds(380,385,24,24);
+		twit.setBounds(350,385,24,24);
 		twit.setFocusable(false);
 		twit.setBackground(new Color(227,241,172));
-		twit.setBorder(BorderFactory.createEmptyBorder());
-		twit.addActionListener(e -> {try{Desktop.getDesktop().browse(new URL("https://twitter.com").toURI());} catch(Exception t) {}});
+		twit.setBorder(BorderFactory.createEmptyBorder());	
+		twit.addActionListener(e -> {try{Desktop.getDesktop().browse(new URL("https://twitter.com/HelloNaturePT").toURI());} catch(Exception t) {}});
 		frame.add(twit);
+		
+		ImageIcon iconEmail = new ImageIcon("mail.png");
+		JButton email = new JButton(iconEmail);
+		email.setBounds(380,385,24,24);
+		email.setFocusable(false);
+		email.setBackground(new Color(227,241,172));
+		email.setBorder(BorderFactory.createEmptyBorder());	
+		email.addActionListener(e -> {try{Desktop.getDesktop().browse(new URL("mailto:hellonaturehelp@gmail.com?subject=Hello%20again").toURI());} catch(Exception t) {}});
+		frame.add(email);
 		
 		
 		JLabel hello = new JLabel("Hello");
@@ -158,7 +168,18 @@ public class Interface {
 					passErro.setText("");
 					password.setBackground(Color.white);
 				}
-				menuAdmin();
+				String passwordLogin = "";
+				for (int i = 0; i < password.getPassword().length; i++) {
+					passwordLogin += password.getPassword()[i];
+				}
+				String usernameLogin = nome.getText();
+				
+				if(gerir.procurarUtilizador(usernameLogin, passwordLogin).equals("Turista")) {
+					menuTurista();
+				}
+				else if (gerir.procurarUtilizador(usernameLogin, passwordLogin).equals("Administrador")) {
+					menuAdmin();
+				}
 			}
 		});
 		frame.add(continuar);
@@ -196,36 +217,36 @@ public class Interface {
 		passLabel.setBounds(60,70,60,30);
 		frame.add(passLabel);
 		
-		JPasswordField password = new JPasswordField("");
-		password.setBounds(150,75,200,25);
-		password.setBorder(BorderFactory.createEmptyBorder());
-		password.setEchoChar('*');
-		frame.add(password);
+		JPasswordField pass = new JPasswordField("");
+		pass.setBounds(150,75,200,25);
+		pass.setBorder(BorderFactory.createEmptyBorder());
+		pass.setEchoChar('*');
+		frame.add(pass);
 		
 		JCheckBox showPass = new JCheckBox("Show");
 		showPass.setBounds(352,78,120,20);
 		showPass.setFocusable(false);
 		showPass.setBackground(new Color(227,241,172));
-		showPass.addActionListener(e -> {if(showPass.isSelected()) password.setEchoChar((char)0); else{password.setEchoChar('*');}});
+		showPass.addActionListener(e -> {if(showPass.isSelected()) pass.setEchoChar((char)0); else{pass.setEchoChar('*');}});
 		frame.add(showPass);
 		
 		JLabel userLabel = new JLabel("Username");
 		userLabel.setBounds(60,110,60,30);
 		frame.add(userLabel);
 		
-		JTextField username = new JTextField();
-		username.setBounds(150,115,200,25);
-		username.setBorder(BorderFactory.createEmptyBorder());
-		frame.add(username);
+		JTextField userName = new JTextField();
+		userName.setBounds(150,115,200,25);
+		userName.setBorder(BorderFactory.createEmptyBorder());
+		frame.add(userName);
 		
 		JLabel emailLabel = new JLabel("Email");
 		emailLabel.setBounds(75,150,60,30);
 		frame.add(emailLabel);
 		
-		JTextField email = new JTextField();
-		email.setBounds(150,155,200,25);
-		email.setBorder(BorderFactory.createEmptyBorder());
-		frame.add(email);
+		JTextField mail = new JTextField();
+		mail.setBounds(150,155,200,25);
+		mail.setBorder(BorderFactory.createEmptyBorder());
+		frame.add(mail);
 		
 		JRadioButton t=new JRadioButton("Turista");    
 		JRadioButton a=new JRadioButton("Admin");   
@@ -243,13 +264,105 @@ public class Interface {
 		frame.add(t);
 		frame.add(a);
 		
+		JLabel nomeErro = new JLabel();
+		nomeErro.setBounds(150,15,200,25);
+		frame.add(nomeErro);
+		
+		JLabel passErro = new JLabel();
+		passErro.setBounds(150,55,200,25);
+		frame.add(passErro);
+		
+		JLabel userErro = new JLabel();
+		userErro.setBounds(150,95,200,25);
+		frame.add(userErro);
+		
+		JLabel emailErro = new JLabel();
+		emailErro.setBounds(150,135,200,25);
+		frame.add(emailErro);
+		
+		JLabel adminTuristaErro = new JLabel();
+		adminTuristaErro.setBounds(170,195,200,30);
+		frame.add(adminTuristaErro);
+		
 		JButton criarconta = new JButton("Criar Conta");
 		criarconta.setBounds(240,280,110,20);
 		criarconta.setFocusable(false);
 		criarconta.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
-			}
+				if(nome.getText().length() == 0 || pass.getPassword().length == 0 || userName.getText().length() == 0 || mail.getText().length() == 0 || t.isSelected() == false && a.isSelected() == false) {
+					if(nome.getText().length() == 0) {
+						nome.setBorder(BorderFactory.createEtchedBorder());
+						nome.setBackground(new Color(255,204,204));
+						nomeErro.setText("Insira o Nome");
+						nomeErro.setForeground(new Color(255,0,0));
+					}
+					else {
+						nomeErro.setText("");
+						nome.setBackground(Color.white);
+					}
+					if(pass.getPassword().length == 0) {
+						pass.setBorder(BorderFactory.createEtchedBorder());
+						pass.setBackground(new Color(255,204,204));
+						passErro.setText("Insira a Password");
+						passErro.setForeground(new Color(255,0,0));
+					}
+					else {
+						passErro.setText("");
+						pass.setBackground(Color.white);
+					}
+					if(userName.getText().length() == 0) {
+						userName.setBorder(BorderFactory.createEtchedBorder());
+						userName.setBackground(new Color(255,204,204));
+						userErro.setText("Insira o Username");
+						userErro.setForeground(new Color(255,0,0));
+					}
+					else {
+						userErro.setText("");
+						userName.setBackground(Color.white);
+					}
+					if(mail.getText().length() == 0) {
+						mail.setBorder(BorderFactory.createEtchedBorder());
+						mail.setBackground(new Color(255,204,204));
+						emailErro.setText("Insira o Email");
+						emailErro.setForeground(new Color(255,0,0));
+					}
+					else {
+						emailErro.setText("");
+						mail.setBackground(Color.white);
+					}
+					if(t.isSelected() == false && a.isSelected() == false) {
+						t.setForeground(new Color(255,0,0));
+						a.setForeground(new Color(255,0,0));
+						adminTuristaErro.setText("*Este campo é obrigatorio*");
+						adminTuristaErro.setForeground(new Color(255,0,0));
+					}
+					else {
+						adminTuristaErro.setText("");
+						t.setForeground(Color.black);
+						a.setForeground(Color.black);
+					}
+				}
+				else {
+					boolean tipoUtilizador;
+					if(t.isSelected() == true) {
+						tipoUtilizador = true;
+					}
+					else {
+						tipoUtilizador = false;
+					}
+					String password = "";
+					for (int i = 0; i < pass.getPassword().length; i++) {
+						password += pass.getPassword()[i];
+					
+					}
+					String nomeUtilizador = nome.getText();
+					String username = userName.getText();
+					String email = mail.getText();
+					gerir.criarConta(nomeUtilizador,password,username, tipoUtilizador,email);
+					menu();
+					sucessoMsg("Conta criada com sucesso");
+					} 
+				}
 		});
 		frame.add(criarconta);
 		
@@ -267,7 +380,7 @@ public class Interface {
 		frame.setLayout(null);
 		
 		JLabel admin = new JLabel("Admin");
-		admin.setBounds(130,70,130,30);
+		admin.setBounds(153,70,130,30);
 		admin.setForeground(new Color(30,75,63));
 		admin.setFont(new Font("Mv Boli",Font.BOLD, 35));
 		frame.add(admin);
@@ -299,7 +412,7 @@ public class Interface {
 	public void adicionarFontesFontanarios() {
 		frame.getContentPane().removeAll();
 		frame.getContentPane().setBackground(new Color(227,241,172));
-		frame.setSize(430,450);
+		frame.setSize(430,490);
 		frame.setResizable(false);
 		frame.setLayout(null);
 		
@@ -355,9 +468,112 @@ public class Interface {
 		historia.setBorder(BorderFactory.createEmptyBorder());
 		frame.add(historia);
 		
-		JButton voltar = new JButton("Voltar");
-		voltar.setBounds(0,0,40,20);
-		voltar.setHorizontalAlignment(SwingConstants.LEFT);
+		JButton submete = new JButton("Submeter");
+		submete.setBounds(205,415,100,25);
+		submete.setFocusable(false);
+		
+		JLabel nomeErro = new JLabel();
+		nomeErro.setBounds(160,15,200,25);
+		frame.add(nomeErro);
+		
+		JLabel locErro = new JLabel();
+		locErro.setBounds(160,55,200,25);
+		frame.add(locErro);
+		
+		JLabel anoErro = new JLabel();
+		anoErro.setBounds(160,95,200,25);
+		frame.add(anoErro);
+		
+		JLabel histErro = new JLabel();
+		histErro.setBounds(160,135,200,25);
+		frame.add(histErro);
+		
+		JLabel tipoErro = new JLabel();
+		tipoErro.setBounds(190,350,200,30);
+		frame.add(tipoErro);
+		
+		submete.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if(nome.getText().length() == 0 || localizacao.getText().length() == 0 || anoConstrucao.getText().length() == 0 || historia.getText().length() == 0 || fonte.isSelected() == false && fonta.isSelected() == false) {
+					if(nome.getText().length() == 0) {
+						nome.setBorder(BorderFactory.createEtchedBorder());
+						nome.setBackground(new Color(255,204,204));
+						nomeErro.setText("Insira o Nome");
+						nomeErro.setForeground(new Color(255,0,0));
+					}
+					else {
+						nomeErro.setText("");
+						nome.setBackground(Color.white);
+					}
+					if(localizacao.getText().length() == 0) {
+						localizacao.setBorder(BorderFactory.createEtchedBorder());
+						localizacao.setBackground(new Color(255,204,204));
+						locErro.setText("Insira a localização");
+						locErro.setForeground(new Color(255,0,0));
+					}
+					else {
+						locErro.setText("");
+						localizacao.setBackground(Color.white);
+					}
+					if(anoConstrucao.getText().length() == 0) {
+						anoConstrucao.setBorder(BorderFactory.createEtchedBorder());
+						anoConstrucao.setBackground(new Color(255,204,204));
+						anoErro.setText("Insira o ano");
+						anoErro.setForeground(new Color(255,0,0));
+					}
+					else {
+						anoErro.setText("");
+						anoConstrucao.setBackground(Color.white);
+					}
+					if(historia.getText().length() == 0) {
+						historia.setBorder(BorderFactory.createEtchedBorder());
+						historia.setBackground(new Color(255,204,204));
+						histErro.setText("Insira a história");
+						histErro.setForeground(new Color(255,0,0));
+					}
+					else {
+						histErro.setText("");
+						historia.setBackground(Color.white);
+					}
+					if(fonte.isSelected() == false && fonta.isSelected() == false) {
+						fonte.setForeground(new Color(255,0,0));
+						fonta.setForeground(new Color(255,0,0));
+						tipoErro.setText("*Este campo é obrigatorio*");
+						tipoErro.setForeground(new Color(255,0,0));
+					}
+					else {
+						tipoErro.setText("");
+						fonte.setForeground(Color.black);
+						fonta.setForeground(Color.black);
+					}
+				}
+				else {
+					boolean tipo;
+					if(fonte.isSelected() == true) {
+						tipo = true;
+					}
+					else {
+						tipo = false;
+					}
+					ArrayList<Comentario>comentarios = null;
+					String nomeStr = nome.getText();
+					String loc = localizacao.getText();
+					String ano = anoConstrucao.getText();
+					String hist = historia.getText();
+					gerir.adicionarFonte_Fontanario(tipo,nomeStr,loc,ano,hist,comentarios);
+					menuAdmin();
+					
+					sucessoMsg("Fonte/Fontanário adicionada com sucesso");
+				}
+				
+			}
+		});
+		
+		frame.add(submete);
+		
+		ImageIcon voltarImage = new ImageIcon("arrow.png");
+		JButton voltar = new JButton(voltarImage);
+		voltar.setBounds(4,4,16,16);
 		voltar.setFocusable(false);
 		voltar.setBackground(new Color(227,241,172));
 		voltar.setBorder(BorderFactory.createEmptyBorder());
@@ -371,9 +587,9 @@ public class Interface {
 		frame.setResizable(false);
 		frame.setLayout(null);
 		
-		JButton voltar = new JButton("Voltar");
-		voltar.setBounds(0,0,40,20);
-		voltar.setHorizontalAlignment(SwingConstants.LEFT);
+		ImageIcon voltarImage = new ImageIcon("arrow.png");
+		JButton voltar = new JButton(voltarImage);
+		voltar.setBounds(4,4,16,16);
 		voltar.setFocusable(false);
 		voltar.setBackground(new Color(227,241,172));
 		voltar.setBorder(BorderFactory.createEmptyBorder());
@@ -388,18 +604,99 @@ public class Interface {
 		frame.setLayout(null);
 		
 		JLabel previewturista = new JLabel("Preview Turista");
-		previewturista.setBounds(130,70,200,30);
+		previewturista.setBounds(130,50,200,30);
 		previewturista.setForeground(new Color(30,75,63));
 		previewturista.setFont(new Font("Mv Boli",Font.BOLD, 20));
 		frame.add(previewturista);
 		
-		JButton voltar = new JButton("Voltar");
-		voltar.setBounds(0,0,40,20);
-		voltar.setHorizontalAlignment(SwingConstants.LEFT);
+		JButton listaFontesFonta = new JButton("Ver lista de Fontes e Fontanários");
+		listaFontesFonta.setBounds(90,100,250,30);
+		listaFontesFonta.setFocusable(false);
+		listaFontesFonta.addActionListener(e -> previewListaFontesFonta());
+		frame.add(listaFontesFonta);
+		
+		JButton pesquisarFontesFonta = new JButton("Pesquisar Fontes e Fontanários");
+		pesquisarFontesFonta.setBounds(90,145,250,30);
+		pesquisarFontesFonta.setFocusable(false);
+		pesquisarFontesFonta.addActionListener(e -> previewFontesFonta());
+		frame.add(pesquisarFontesFonta);
+		
+		JButton historicoFontesFonta = new JButton("Ver histórico de Fontes e Fontanários");
+		historicoFontesFonta.setBounds(90,190,250,30);
+		historicoFontesFonta.setFocusable(false);
+		historicoFontesFonta.addActionListener(e -> previewHistoricoFontesFonta());
+		frame.add(historicoFontesFonta);
+		
+		JButton voltaAdm= new JButton("Voltar ao modo admininistrador");
+		voltaAdm.setBounds(90,235,250,30);
+		voltaAdm.setFocusable(false);
+		voltaAdm.addActionListener(e -> menuAdmin());
+		frame.add(voltaAdm);
+		
+		JButton terminaSessao= new JButton("Terminar Sessão");
+		terminaSessao.setBounds(90,280,250,30);
+		terminaSessao.setFocusable(false);
+		terminaSessao.addActionListener(e -> login());
+		frame.add(terminaSessao);
+		
+		ImageIcon voltarImage = new ImageIcon("arrow.png");
+		JButton voltar = new JButton(voltarImage);
+		voltar.setBounds(4,4,16,16);
 		voltar.setFocusable(false);
 		voltar.setBackground(new Color(227,241,172));
 		voltar.setBorder(BorderFactory.createEmptyBorder());
 		voltar.addActionListener(e -> menuAdmin());
+		frame.add(voltar);
+	}
+	
+	public void previewListaFontesFonta() {
+		frame.getContentPane().removeAll();
+		frame.getContentPane().setBackground(new Color(227,241,172));
+		frame.setSize(430,450);
+		frame.setResizable(false);
+		frame.setLayout(null);
+		
+		menuListaFontes_Fontanarios(gerir);
+		
+		ImageIcon voltarImage = new ImageIcon("arrow.png");
+		JButton voltar = new JButton(voltarImage);
+		voltar.setBounds(4,4,16,16);
+		voltar.setFocusable(false);
+		voltar.setBackground(new Color(227,241,172));
+		voltar.setBorder(BorderFactory.createEmptyBorder());
+		voltar.addActionListener(e -> previewTurista());
+		frame.add(voltar);
+	}
+	public void previewFontesFonta() {
+		frame.getContentPane().removeAll();
+		frame.getContentPane().setBackground(new Color(227,241,172));
+		frame.setSize(420,450);
+		frame.setResizable(false);
+		frame.setLayout(null);
+		
+		ImageIcon voltarImage = new ImageIcon("arrow.png");
+		JButton voltar = new JButton(voltarImage);
+		voltar.setBounds(4,4,16,16);
+		voltar.setFocusable(false);
+		voltar.setBackground(new Color(227,241,172));
+		voltar.setBorder(BorderFactory.createEmptyBorder());
+		voltar.addActionListener(e -> previewTurista());
+		frame.add(voltar);
+	}
+	public void previewHistoricoFontesFonta() {
+		frame.getContentPane().removeAll();
+		frame.getContentPane().setBackground(new Color(227,241,172));
+		frame.setSize(430,450);
+		frame.setResizable(false);
+		frame.setLayout(null);
+		
+		ImageIcon voltarImage = new ImageIcon("arrow.png");
+		JButton voltar = new JButton(voltarImage);
+		voltar.setBounds(4,4,16,16);
+		voltar.setFocusable(false);
+		voltar.setBackground(new Color(227,241,172));
+		voltar.setBorder(BorderFactory.createEmptyBorder());
+		voltar.addActionListener(e -> previewTurista());
 		frame.add(voltar);
 	}
 	public void menuTurista() {
@@ -440,9 +737,11 @@ public class Interface {
 		frame.setResizable(false);
 		frame.setLayout(null);
 		
-		JButton voltar = new JButton("Voltar");
-		voltar.setBounds(0,0,40,20);
-		voltar.setHorizontalAlignment(SwingConstants.LEFT);
+		menuListaFontes_Fontanarios(gerir);
+		
+		ImageIcon voltarImage = new ImageIcon("arrow.png");
+		JButton voltar = new JButton(voltarImage);
+		voltar.setBounds(4,4,16,16);
 		voltar.setFocusable(false);
 		voltar.setBackground(new Color(227,241,172));
 		voltar.setBorder(BorderFactory.createEmptyBorder());
@@ -456,9 +755,9 @@ public class Interface {
 		frame.setResizable(false);
 		frame.setLayout(null);
 		
-		JButton voltar = new JButton("Voltar");
-		voltar.setBounds(0,0,40,20);
-		voltar.setHorizontalAlignment(SwingConstants.LEFT);
+		ImageIcon voltarImage = new ImageIcon("arrow.png");
+		JButton voltar = new JButton(voltarImage);
+		voltar.setBounds(4,4,16,16);
 		voltar.setFocusable(false);
 		voltar.setBackground(new Color(227,241,172));
 		voltar.setBorder(BorderFactory.createEmptyBorder());
@@ -472,14 +771,43 @@ public class Interface {
 		frame.setResizable(false);
 		frame.setLayout(null);
 		
-		JButton voltar = new JButton("Voltar");
-		voltar.setBounds(0,0,40,20);
-		voltar.setHorizontalAlignment(SwingConstants.LEFT);
+		ImageIcon voltarImage = new ImageIcon("arrow.png");
+		JButton voltar = new JButton(voltarImage);
+		voltar.setBounds(4,4,16,16);
 		voltar.setFocusable(false);
 		voltar.setBackground(new Color(227,241,172));
 		voltar.setBorder(BorderFactory.createEmptyBorder());
 		voltar.addActionListener(e -> menuTurista());
 		frame.add(voltar);
+	}
+	public static void menuListaFontes_Fontanarios(Gerir gerir) {
+		boolean tipo = false;
+		String nome = "";
+		String localizacao = "";
+		String anoConstrucao = "";
+		String historia = "";
+		ArrayList<Comentario>comentarios = null;
+		gerir.listarFontes_Fontanarios(tipo,nome,localizacao,anoConstrucao,historia,comentarios);
+		int opcao = 0;
+		gerir.selecionarFonte_Fontanario(opcao);
+	}
+	public void sucessoMsg(String sucesso) {
+		JFrame sucessoFrame = new JFrame();
+		sucessoFrame.setSize(300,100);
+		sucessoFrame.setLayout(null);
+		sucessoFrame.setResizable(false);
+		sucessoFrame.setVisible(true);
+		
+		JLabel sucessoLabel = new JLabel(sucesso);
+		sucessoLabel.setBounds(20,0,250,30);
+		sucessoLabel.setHorizontalAlignment(JLabel.CENTER);
+		sucessoFrame.add(sucessoLabel);
+		
+		JButton ok = new JButton("Ok");
+		ok.setBounds(120,25,50,30);
+		ok.addActionListener(e -> sucessoFrame.dispose());
+		ok.setFocusable(false);
+		sucessoFrame.add(ok);
 	}
 	public static void main(String[] args) {
 		Interface menu = new Interface();

@@ -11,22 +11,22 @@ public class Fontes_Fontanarios {
 	private boolean tipo;
 	private String nome;
 	private String localizacao;
-	private int anoConstrucao;
+	private String anoConstrucao;
 	private String historia;
 	private ArrayList<Comentario> comentarios;
 	/**
 	 * @param tipo
 	 * @param nome
 	 * @param localizacao
-	 * @param anoConstrucao
+	 * @param ano
 	 * @param historia
 	 * @param comentarios
 	 */
-	public Fontes_Fontanarios(boolean tipo, String nome, String localizacao, int anoConstrucao, String historia, ArrayList<Comentario> comentarios) {
+	public Fontes_Fontanarios(boolean tipo, String nome, String localizacao, String ano, String historia, ArrayList<Comentario> comentarios) {
 		this.tipo = tipo;
 		this.nome = nome;
 		this.localizacao = localizacao;
-		this.anoConstrucao = anoConstrucao;
+		this.anoConstrucao = ano;
 		this.historia = historia;
 		this.comentarios = comentarios;
 	}
@@ -69,13 +69,13 @@ public class Fontes_Fontanarios {
 	/**
 	 * @return the anoConstrucao
 	 */
-	public int getAnoConstrucao() {
+	public String getAnoConstrucao() {
 		return anoConstrucao;
 	}
 	/**
 	 * @param anoConstrucao the anoConstrucao to set
 	 */
-	public void setAnoConstrucao(int anoConstrucao) {
+	public void setAnoConstrucao(String anoConstrucao) {
 		this.anoConstrucao = anoConstrucao;
 	}
 	/**

@@ -25,7 +25,7 @@ public class Gerir{
 		Conta novaConta = new Conta(nomeUtilizador,password,username,tipoUtilizador,email);
 		contas.add(novaConta);
 	}	
-	public void adicionarFonte_Fontanario(boolean tipo, String nome, String localizacao, int anoConstrucao, String historia, ArrayList<Comentario>comentarios){
+	public void adicionarFonte_Fontanario(boolean tipo, String nome, String localizacao, String anoConstrucao, String historia, ArrayList<Comentario>comentarios){
 		Fontes_Fontanarios novaFonte_Fontanario = new Fontes_Fontanarios(tipo,nome,localizacao,anoConstrucao,historia,comentarios);
 		fontesFontanarios.add(novaFonte_Fontanario);
 	}
@@ -33,14 +33,16 @@ public class Gerir{
 		for(int i = 0; i<contas.size();i++) {
 			if(contas.get(i).getUsername().equals(username) && contas.get(i).getPassword().equals(password)){
 				if(contas.get(i).isTipoUtilizador()) {
+					return "Turista";
+				}
+				else {
 					return "Administrador";
 				}
-				return "Turista";
 			}
 		}
 		return "Inválido";
 	}
-	public void listarFontes_Fontanarios(boolean tipo, String nome, String localizacao, int anoConstrucao, String historia, ArrayList<Comentario>comentarios) {
+	public void listarFontes_Fontanarios(boolean tipo, String nome, String localizacao, String anoConstrucao, String historia, ArrayList<Comentario>comentarios) {
 		for(int i = 0; i<fontesFontanarios.size();i++) {
 			System.out.println(i+1 + "." + fontesFontanarios.get(i).getNome());
 		}
