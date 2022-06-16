@@ -146,39 +146,61 @@ public class Interface {
 		passErro.setBounds(150,55,200,25);
 		frame.add(passErro);
 		
+		
+		JLabel naoExiste = new JLabel();
+		naoExiste.setBounds(148,135,170,30);
+		frame.add(naoExiste);
+		
 		continuar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if(nome.getText().length() == 0) {
-					nome.setBorder(BorderFactory.createEtchedBorder());
-					nome.setBackground(new Color(255,204,204));
-					nomeErro.setText("Insira o Username");
-					nomeErro.setForeground(new Color(255,0,0));
+				if (nome.getText().length() == 0 || password.getPassword().length == 0) {
+					if(nome.getText().length() == 0) {
+						nome.setBorder(BorderFactory.createEtchedBorder());
+						nome.setBackground(new Color(255,204,204));
+						nomeErro.setText("Insira o Username");
+						nomeErro.setForeground(new Color(255,0,0));
+						naoExiste.setText("");
+					}
+					else {
+						nomeErro.setText("");
+						nome.setBackground(Color.white);
+						
+					}
+					if(password.getPassword().length == 0) {
+						password.setBorder(BorderFactory.createEtchedBorder());
+						password.setBackground(new Color(255,204,204));
+						passErro.setText("Insira a Password");
+						passErro.setForeground(new Color(255,0,0));
+						naoExiste.setText("");
+					}
+					else {
+						passErro.setText("");
+						password.setBackground(Color.white);
+					}
 				}
 				else {
-					nomeErro.setText("");
-					nome.setBackground(Color.white);
-				}
-				if(password.getPassword().length == 0) {
-					password.setBorder(BorderFactory.createEtchedBorder());
-					password.setBackground(new Color(255,204,204));
-					passErro.setText("Insira a Password");
-					passErro.setForeground(new Color(255,0,0));
-				}
-				else {
-					passErro.setText("");
-					password.setBackground(Color.white);
-				}
-				String passwordLogin = "";
-				for (int i = 0; i < password.getPassword().length; i++) {
-					passwordLogin += password.getPassword()[i];
-				}
-				String usernameLogin = nome.getText();
-				
-				if(gerir.procurarUtilizador(usernameLogin, passwordLogin).equals("Turista")) {
-					menuTurista();
-				}
-				else if (gerir.procurarUtilizador(usernameLogin, passwordLogin).equals("Administrador")) {
-					menuAdmin();
+					String passwordLogin = "";
+					for (int i = 0; i < password.getPassword().length; i++) {
+						passwordLogin += password.getPassword()[i];
+					}
+					String usernameLogin = nome.getText();
+					
+					if(gerir.procurarUtilizador(usernameLogin, passwordLogin).equals("Turista")) {
+						menuTurista();
+					}
+					else if (gerir.procurarUtilizador(usernameLogin, passwordLogin).equals("Administrador")) {
+						menuAdmin();
+					}
+					else {
+						naoExiste.setForeground(new Color(255,0,0));
+						naoExiste.setText("*Utilizador não encontrado*");
+						nomeErro.setText("");
+						passErro.setText("");
+						nome.setBackground(Color.white);
+						password.setBackground(Color.white);
+						nome.setText("");
+						password.setText("");
+					}
 				}
 			}
 		});
@@ -673,6 +695,18 @@ public class Interface {
 		frame.setSize(420,450);
 		frame.setResizable(false);
 		frame.setLayout(null);
+		
+		JTextField name = new JTextField();
+		name .setBounds(80,40,200,30);
+		frame.add(name);
+		String nome = name.getText();
+		
+		JButton ok = new JButton("ok");
+		ok.setBounds(290,40,50,30);
+		ok.setFocusable(false);
+		frame.add(ok);
+		
+		ok.addActionListener(e -> gerir.procurarFontes_Fontanarios(nome));
 		
 		ImageIcon voltarImage = new ImageIcon("arrow.png");
 		JButton voltar = new JButton(voltarImage);
