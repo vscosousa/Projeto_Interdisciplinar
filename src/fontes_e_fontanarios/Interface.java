@@ -7,32 +7,25 @@ import java.awt.Desktop;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-
 import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;
-import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JList;
 import javax.swing.JPasswordField;
 import javax.swing.JRadioButton;
-import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Collection;
 /**
  * @author Grupo4
  *
  */
 public class Interface {
 	private JFrame frame = new JFrame("Hello Nature");
-	static Gerir gerir = new Gerir(new ArrayList<>(), new ArrayList<>());
+	Gerir gerir = new Gerir(new ArrayList<>(), new ArrayList<>());
 	
 	public void menu(){
 		
@@ -317,7 +310,7 @@ public class Interface {
 		criarconta.setBounds(240,280,110,20);
 		criarconta.setFocusable(false);
 		criarconta.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e){
+			public void actionPerformed(ActionEvent e) {
 				if(nome.getText().length() == 0 || pass.getPassword().length == 0 || userName.getText().length() == 0 || mail.getText().length() == 0 || t.isSelected() == false && a.isSelected() == false) {
 					if(nome.getText().length() == 0) {
 						nome.setBorder(BorderFactory.createEtchedBorder());
@@ -387,12 +380,7 @@ public class Interface {
 					String nomeUtilizador = nome.getText();
 					String username = userName.getText();
 					String email = mail.getText();
-					try {
-						gerir.writeToDataBase(nomeUtilizador,password,username, tipoUtilizador,email);
-					} catch (IOException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					}
+					gerir.criarConta(nomeUtilizador,password,username, tipoUtilizador,email);
 					menu();
 					sucessoMsg("Conta criada com sucesso");
 					} 
@@ -425,14 +413,20 @@ public class Interface {
 		adicionarFontesFonta.addActionListener(e -> adicionarFontesFontanarios());
 		frame.add(adicionarFontesFonta);
 		
+		JButton verficarComentarios= new JButton("Verificar comentários");
+		verficarComentarios.setBounds(100,200,230,30);
+		verficarComentarios.setFocusable(false);
+		verficarComentarios.addActionListener(e -> verificarComentarios());
+		frame.add(verficarComentarios);
+		
 		JButton previwTurista= new JButton("Preview Turista");
-		previwTurista.setBounds(100,200,230,30);
+		previwTurista.setBounds(100,240,230,30);
 		previwTurista.setFocusable(false);
 		previwTurista.addActionListener(e -> previewTurista());
 		frame.add(previwTurista);
 		
 		JButton terminaSessao= new JButton("Terminar Sessão");
-		terminaSessao.setBounds(100,240,230,30);
+		terminaSessao.setBounds(100,280,230,30);
 		terminaSessao.setFocusable(false);
 		terminaSessao.addActionListener(e -> login());
 		frame.add(terminaSessao);
@@ -583,16 +577,12 @@ public class Interface {
 					else {
 						tipo = false;
 					}
+					ArrayList<Comentario>comentarios = null;
 					String nomeStr = nome.getText();
 					String loc = localizacao.getText();
 					String ano = anoConstrucao.getText();
 					String hist = historia.getText();
-					try {
-						gerir.writeToFontes(tipo,nomeStr,loc,ano,hist);
-					} catch (IOException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					}
+					gerir.adicionarFonte_Fontanario(tipo,nomeStr,loc,ano,hist,comentarios);
 					menuAdmin();
 					
 					sucessoMsg("Fonte/Fontanário adicionada com sucesso");
@@ -602,6 +592,22 @@ public class Interface {
 		});
 		
 		frame.add(submete);
+		
+		ImageIcon voltarImage = new ImageIcon("arrow.png");
+		JButton voltar = new JButton(voltarImage);
+		voltar.setBounds(4,4,16,16);
+		voltar.setFocusable(false);
+		voltar.setBackground(new Color(227,241,172));
+		voltar.setBorder(BorderFactory.createEmptyBorder());
+		voltar.addActionListener(e -> menuAdmin());
+		frame.add(voltar);
+	}
+	public void verificarComentarios() {
+		frame.getContentPane().removeAll();
+		frame.getContentPane().setBackground(new Color(227,241,172));
+		frame.setSize(430,450);
+		frame.setResizable(false);
+		frame.setLayout(null);
 		
 		ImageIcon voltarImage = new ImageIcon("arrow.png");
 		JButton voltar = new JButton(voltarImage);
@@ -672,18 +678,7 @@ public class Interface {
 		frame.setResizable(false);
 		frame.setLayout(null);
 		
-		/*DefaultListModel<Gerir> fontesFontaList = new DefaultListModel<>();
-		
-		fontesFontaList.addAll(gerir.listarFontes_Fontanarios());
-		
-		JList<Gerir> listLocal = new JList<>(fontesFontaList);
-		listLocal.setLayoutOrientation(JList.VERTICAL);
-		
-		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(40, 120, 250, 120);
-		scrollPane.setViewportView(listLocal);
-		frame.add(scrollPane);*/
-		
+		menuListaFontes_Fontanarios(gerir);
 		
 		ImageIcon voltarImage = new ImageIcon("arrow.png");
 		JButton voltar = new JButton(voltarImage);
@@ -745,12 +740,6 @@ public class Interface {
 		frame.setResizable(false);
 		frame.setLayout(null);
 		
-		JLabel turistaLabel = new JLabel("Turista");
-		turistaLabel.setBounds(150,45,130,30);
-		turistaLabel.setForeground(new Color(30,75,63));
-		turistaLabel.setFont(new Font("Mv Boli",Font.BOLD, 35));
-		frame.add(turistaLabel);
-		
 		JButton listaFontesFonta = new JButton("Ver lista de Fontes e Fontanários");
 		listaFontesFonta.setBounds(90,100,250,30);
 		listaFontesFonta.setFocusable(false);
@@ -800,18 +789,6 @@ public class Interface {
 		frame.setResizable(false);
 		frame.setLayout(null);
 		
-		JTextField name = new JTextField();
-		name .setBounds(80,40,200,30);
-		frame.add(name);
-		String nome = name.getText();
-		
-		JButton ok = new JButton("ok");
-		ok.setBounds(290,40,50,30);
-		ok.setFocusable(false);
-		frame.add(ok);
-		
-		ok.addActionListener(e -> gerir.procurarFontes_Fontanarios(nome));
-		
 		ImageIcon voltarImage = new ImageIcon("arrow.png");
 		JButton voltar = new JButton(voltarImage);
 		voltar.setBounds(4,4,16,16);
@@ -838,7 +815,13 @@ public class Interface {
 		frame.add(voltar);
 	}
 	public static void menuListaFontes_Fontanarios(Gerir gerir) {
-		gerir.listarFontes_Fontanarios();
+		boolean tipo = false;
+		String nome = "";
+		String localizacao = "";
+		String anoConstrucao = "";
+		String historia = "";
+		ArrayList<Comentario>comentarios = null;
+		gerir.listarFontes_Fontanarios(tipo,nome,localizacao,anoConstrucao,historia,comentarios);
 		int opcao = 0;
 		gerir.selecionarFonte_Fontanario(opcao);
 	}
@@ -860,9 +843,7 @@ public class Interface {
 		ok.setFocusable(false);
 		sucessoFrame.add(ok);
 	}
-	public static void main(String[] args) throws IOException {
-		gerir.loadDataBase();
-		gerir.loadToFontes();
+	public static void main(String[] args) {
 		Interface menu = new Interface();
 		menu.menu();
 	}

@@ -2,9 +2,6 @@
  * 
  */
 package fontes_e_fontanarios;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
 /**
@@ -14,8 +11,6 @@ import java.util.Scanner;
 public class Gerir{
 	private ArrayList<Fontes_Fontanarios>fontesFontanarios;
 	private ArrayList<Conta>contas;
-	
-	
 	/**
 	 * @param fontesFontenarios
 	 * @param contas
@@ -26,46 +21,12 @@ public class Gerir{
 		this.contas = contas;
 	}
 	
-	public void loadDataBase() throws IOException {
-		File baseDeDados = new File("src/fontes_e_fontanarios/BaseDeDados.txt");
-		Scanner scr = new Scanner(baseDeDados);
-		while(scr.hasNextLine()) {
-			String[] conta = scr.nextLine().split(",");
-			this.criarConta(conta[0], conta[1], conta[2], Boolean.parseBoolean(conta[3]), conta[4]);
-		}
-	}
-	
-	public void writeToDataBase(String nomeUtilizador,String password,String username,boolean tipoUtilizador,String email) throws IOException {
-		String newAccount = nomeUtilizador + "," + password + "," + username + "," + tipoUtilizador + "," + email + "\n";
-		FileWriter fW = new FileWriter("src/fontes_e_fontanarios/BaseDeDados.txt", true);
-		fW.write(newAccount);
-		fW.close();
-		this.criarConta(nomeUtilizador, password, username, tipoUtilizador, email);
-	}
-	
-	public void loadToFontes() throws IOException {
-		File baseFontesFonta = new File("src/fontes_e_fontanarios/BaseFontesFonta.txt");
-		Scanner scrFontesFonta = new Scanner(baseFontesFonta);
-		while(scrFontesFonta.hasNextLine()) {
-			String[] fonteFonta = scrFontesFonta.nextLine().split(",");
-			this.adicionarFonte_Fontanario(Boolean.parseBoolean(fonteFonta[0]), fonteFonta[1], fonteFonta[2], fonteFonta[3], fonteFonta[4]);
-		}
-	}
-	
-	public void writeToFontes(boolean tipo, String nome, String localizacao, String anoConstrucao, String historia) throws IOException {
-		String newFonteFonta = tipo + "," + nome + "," + localizacao + "," + anoConstrucao + "," + historia + "\n";
-		FileWriter fW = new FileWriter("src/fontes_e_fontanarios/BaseFontesFonta.txt", true);
-		fW.write(newFonteFonta);
-		fW.close();
-		this.adicionarFonte_Fontanario(tipo, nome, localizacao, anoConstrucao, historia);
-	}
-	
 	public void criarConta(String nomeUtilizador,String password,String username,boolean tipoUtilizador,String email){
 		Conta novaConta = new Conta(nomeUtilizador,password,username,tipoUtilizador,email);
 		contas.add(novaConta);
 	}	
-	public void adicionarFonte_Fontanario(boolean tipo, String nome, String localizacao, String anoConstrucao, String historia){
-		Fontes_Fontanarios novaFonte_Fontanario = new Fontes_Fontanarios(tipo,nome,localizacao,anoConstrucao,historia);
+	public void adicionarFonte_Fontanario(boolean tipo, String nome, String localizacao, String anoConstrucao, String historia, ArrayList<Comentario>comentarios){
+		Fontes_Fontanarios novaFonte_Fontanario = new Fontes_Fontanarios(tipo,nome,localizacao,anoConstrucao,historia,comentarios);
 		fontesFontanarios.add(novaFonte_Fontanario);
 	}
 	public String procurarUtilizador(String username, String password) {
@@ -81,7 +42,7 @@ public class Gerir{
 		}
 		return "Inválido";
 	}
-	public void listarFontes_Fontanarios() {
+	public void listarFontes_Fontanarios(boolean tipo, String nome, String localizacao, String anoConstrucao, String historia, ArrayList<Comentario>comentarios) {
 		for(int i = 0; i<fontesFontanarios.size();i++) {
 			System.out.println(i+1 + "." + fontesFontanarios.get(i).getNome());
 		}
@@ -99,6 +60,11 @@ public class Gerir{
 				System.out.println("Localização: " + infoFontes_Fontanarios.getLocalizacao());
 				System.out.println("Ano de construção: " + infoFontes_Fontanarios.getAnoConstrucao());
 				System.out.println("História: " + infoFontes_Fontanarios.getHistoria());
+				if(infoFontes_Fontanarios.getComentarios() != null){
+					for(int x = 0; x < infoFontes_Fontanarios.getComentarios().size();x++) {
+						System.out.println(infoFontes_Fontanarios.getComentarios().get(i).getNomeUtilizador() + ": " + infoFontes_Fontanarios.getComentarios().get(i).getRating() + " - " + infoFontes_Fontanarios.getComentarios().get(i).getTexto());
+					}
+				}
 			}
 		}
 	}
@@ -118,6 +84,11 @@ public class Gerir{
 				System.out.println("Localização: " + infoFontes_Fontanarios.getLocalizacao());
 				System.out.println("Ano de construção: " + infoFontes_Fontanarios.getAnoConstrucao());
 				System.out.println("História: " + infoFontes_Fontanarios.getHistoria());
+				if(infoFontes_Fontanarios.getComentarios() != null){
+					for(int x = 0; x < infoFontes_Fontanarios.getComentarios().size();x++) {
+						System.out.println(infoFontes_Fontanarios.getComentarios().get(i).getNomeUtilizador() + ": " + infoFontes_Fontanarios.getComentarios().get(i).getRating() + " - " + infoFontes_Fontanarios.getComentarios().get(i).getTexto());
+					}
+				}
 			}	
 		}
 	}
