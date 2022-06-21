@@ -1,3 +1,1 @@
-true~Cubo do Porto~Praça de Ribeira, Porto 4050-513 Portugal~1983~O Cubo portuense é uma das faces mais visíveis de um artista que sempre gostou de provocar, de seguir a criatividade, a curiosidade.
-true~Fonte dos Leões~Praca Gomes Teixeira 10, Porto 4050-290 Portugal~1878~É umas das poucas fontes da cidade que não foram construídas em Portugal, sendo ao mesmo tempo a mais vistosa do Porto.
-false~Fonte Monumental de Mouzinho da Silveira~Rua de Mouzinho da Silveira, Porto 4000-069 Portugal~1964~Na Rua Mouzinho da Silveira existiu, no século XIX, uma fonte monumental, que foi desmontada, em 1920 pela Câmara, para substituir a dita fonte a Câmara mandou colocar, nesse ano, um pequeno chafariz de pedra
+true,Cubo do Porto,Praça de Ribeira, Porto 4050-513 Portugal,1983,O Cubo portuense é uma das faces mais visíveis de um artista que sempre gostou de provocar, de seguir a criatividade, a curiosidade.
