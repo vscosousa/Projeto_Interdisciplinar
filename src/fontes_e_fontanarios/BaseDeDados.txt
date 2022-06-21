@@ -1,3 +1,0 @@
-Carolina,Hellonature2022,carolcosta,false,carolina@hellonature.com
-Rafael,Hellonature2022,ReyFow,true,43785@alunos.upt.pt
-Vasco,Hellonature2022,vscosousa,true,44698@alunos.upt.pt
