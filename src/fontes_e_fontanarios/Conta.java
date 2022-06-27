@@ -42,6 +42,12 @@ public class Conta {
 		return username;
 	}
 	/**
+	 * @return the email
+	 */
+	public String getEmail() {
+		return email;
+	}
+	/**
 	 * @return the tipoUtilizador
 	 */
 	public boolean isTipoUtilizador() {
